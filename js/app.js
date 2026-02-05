@@ -8,21 +8,20 @@ const tienda = {
 };
 
 function showSection(section) {
-    // Limpiar pantalla y ocultar orden de compra
+    // Esto limpia la pantalla anterior antes de mostrar la nueva
     document.getElementById('content').innerHTML = "";
     document.getElementById('orden-compra-container').style.display = 'none';
 
     if (section === 'inventario') renderInventario();
     if (section === 'reportes') generarInformeEstado();
-    if (section === 'ventas' || section === 'compras') {
-        document.getElementById('content').innerHTML = "<h2>Módulo de " + section + "</h2><p>Lógica de transacciones lista.</p>";
-    }
+    if (section === 'ventas') document.getElementById('content').innerHTML = "<h1>Módulo de Ventas</h1>";
+    if (section === 'compras') document.getElementById('content').innerHTML = "<h1>Módulo de Compras</h1>";
 }
 
 function renderInventario() {
     let html = `<h2>Estado General de Almacenes</h2>
     <table border="1" width="100%">
-        <tr><th>Producto</th>${tienda.almacenes.map(a => `<th>${a}</th>`).join('')}<th>Total</th></tr>`;
+    <tr><th>Producto</th>${tienda.almacenes.map(a => `<th>${a}</th>`).join('')}<th>Total</th></tr>`;
     
     tienda.productos.forEach(p => {
         let total = p.stock.reduce((a, b) => a + b, 0);
@@ -51,7 +50,5 @@ function prepararOrden(id) {
     document.getElementById('orden-compra-container').style.display = 'block';
     document.getElementById('folio-orden').textContent = "OC-" + Math.floor(Math.random()*1000);
     document.getElementById('fecha-orden').textContent = new Date().toLocaleDateString();
-    document.getElementById('detalle-orden').innerHTML = `
-        <p>Solicitamos a <strong>${tienda.proveedores[0]}</strong> la cantidad de <strong>${p.min * 2}</strong> 
-        unidades de <strong>${p.nombre}</strong> para Almacén Central.</p>`;
+    document.getElementById('detalle-orden').innerHTML = `<p>Solicitamos a <strong>${tienda.proveedores[0]}</strong> la cantidad de <strong>${p.min * 2}</strong> unidades de <strong>${p.nombre}</strong>.</p>`;
 }
